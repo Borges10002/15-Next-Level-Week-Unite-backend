@@ -6,3 +6,20 @@ Content-Type: application/json
     "details": "Um evento para que é apaixado por programção",
     "maximumAttendees":100
 }
+
+###
+
+POST http://localhost:3333/events/e9ca4bf5-3543-4aab-beba-f61db5fd6536/attendees
+Content-Type: application/json
+
+{
+  "name": "Diego da silva borges",
+  "email": "borges10002@gmail.com"
+}
+
+###
+GET  http://localhost:3333/events/e9ca4bf5-3543-4aab-beba-f61db5fd6536
+
+###
+GET http://localhost:3333/attendees/1/badge
+
