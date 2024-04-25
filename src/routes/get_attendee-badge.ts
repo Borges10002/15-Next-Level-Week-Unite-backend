@@ -11,6 +11,7 @@ export async function getAttendeeBadge(app: FastifyInstance) {
         params: z.object({
           attendeeId: z.coerce.number().int(),
         }),
+
         response: {
           200: z.object({
             badge: z.object({
