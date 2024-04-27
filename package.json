@@ -9,6 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "devDependencies": {
     "@types/node": "^20.12.7",
     "prisma": "^5.12.1",
@@ -16,7 +19,12 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@fastify/cors": "^9.0.1",
+    "@fastify/swagger": "^8.14.0",
+    "@fastify/swagger-ui": "^3.0.0",
     "@prisma/client": "^5.12.1",
+    "dayjs": "^1.11.10",
     "fastify": "^4.26.2",
     "fastify-type-provider-zod": "^1.1.9",
     "zod": "^3.22.4"

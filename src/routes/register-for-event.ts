@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { object, z } from "zod";
+import { z } from "zod";
 import { prisma } from "../lib/prisma";
+import { BadRequest } from "./_errors/bad-request";
 
 export async function registerForEvent(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -38,28 +39,40 @@ export async function registerForEvent(app: FastifyInstance) {
       });
 
       if (attendeeFromEmail !== null) {
-        throw new Error("This e-mail is already registered for this event.");
+        throw new BadRequest(
+          "This e-mail is already registered for this event."
+        );
       }
 
-      const [event, amountAfAttendeesForEvent] = await Promise.all([
-        prisma.event.findUnique({ where: { id: eventId } }),
+      const [event, amountOfAttendeesForEvent] = await Promise.all([
+        prisma.event.findUnique({
+          where: {
+            id: eventId,
+          },
+        }),
 
-        await prisma.attendee.count({
-          where: { eventId },
+        prisma.attendee.count({
+          where: {
+            eventId,
+          },
         }),
       ]);
 
       if (
         event?.maximumAttendees &&
-        amountAfAttendeesForEvent >= event.maximumAttendees
+        amountOfAttendeesForEvent >= event.maximumAttendees
       ) {
-        throw new Error(
+        throw new BadRequest(
           "The maximum number of attendees for this event has been reached."
         );
       }
 
       const attendee = await prisma.attendee.create({
-        data: { name, email, eventId },
+        data: {
+          name,
+          email,
+          eventId,
+        },
       });
 
       return reply.status(201).send({ attendeeId: attendee.id });
